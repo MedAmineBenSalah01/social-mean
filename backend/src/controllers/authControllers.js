@@ -16,7 +16,6 @@ const signUp = async (req, res) => {
         await user.save();
         res.status(201).json({ user });
     } catch (error) {
-        console.log(error);
         console.error(error.message);
         res.status(500).json({ message: error.message });
     }
@@ -27,7 +26,6 @@ const login = async (req, res, next) => {
     try {
         const { email, password, keepMe } = req.body;
         var user = await userModel.findOne({ email }).exec();
-        console.log(user)
         if (!user) {
             return res
                 .status(401)
@@ -44,7 +42,6 @@ const login = async (req, res, next) => {
             name: user.username,
         };
         const token = await createJWT(user, keepMe);
-        console.log('=>', token)
         res.cookie("token", token, {
             httpOnly: true,
             secure: false,
@@ -55,7 +52,6 @@ const login = async (req, res, next) => {
         });
         res.json({ user, token });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };

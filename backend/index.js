@@ -2,7 +2,6 @@ require("dotenv").config();
 const app = require("./src/app");
 const mongoose = require("mongoose");
 
-console.log(process.env.dbConnectionString,)
 
 mongoose
   .connect(process.env.dbConnectionString, {

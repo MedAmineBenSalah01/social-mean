@@ -40,6 +40,7 @@ const login = async (req, res, next) => {
         }
         user = {
             name: user.username,
+            id:user._id
         };
         const token = await createJWT(user, keepMe);
         res.cookie("token", token, {

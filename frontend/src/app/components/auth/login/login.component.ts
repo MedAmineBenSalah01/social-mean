@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,13 +12,15 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  keepMeConnected: boolean = false; 
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
     const userData = {
       email: this.email,
-      password: this.password
+      password: this.password,
+      keepMe: this.keepMeConnected
     };
 
     this.authService.login(userData).subscribe(

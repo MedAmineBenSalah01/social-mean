@@ -3,6 +3,11 @@
     <form class="loginForm" (submit)="login()">
         <input class="loginInput" type="text" [(ngModel)]="email" name="email" placeholder="Email" required />
         <input class="loginInput" type="password" [(ngModel)]="password" name="password" placeholder="Password" required />
+        <div>
+            <label>
+                <input type="checkbox" [(ngModel)]="keepMeConnected" name="keepMeConnected" /> Keep me connected
+            </label>
+        </div>
         <button type="submit" class="login-btn">Login</button>
     </form>
 </div>

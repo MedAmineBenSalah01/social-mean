@@ -7,7 +7,8 @@ const signUp = async (req, res) => {
         username, email, password
     } = req.body;
     try {
-        var hashedPassword = await bcrypt.hash(password, process.env.SALT);
+        const salt = await bcrypt.genSalt(10);
+        var hashedPassword = await bcrypt.hash(password, salt);
         const user = await userModel.create({
             username: username,
             email: email,

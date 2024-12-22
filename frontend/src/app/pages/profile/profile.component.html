@@ -1,11 +1,29 @@
 <div>
   <div>
+    <h2>Friend Requests</h2>
+    <div *ngFor="let request of friendRequests">
+      <div>
+        <p>{{ request.sender.username }} wants to be your friend.</p>
+        <button (click)="respondToFriendRequest(request._id, 'accepted')">Accept</button>
+        <button (click)="respondToFriendRequest(request._id, 'rejected')">Reject</button>
+      </div>
+    </div>
+  </div>
+  <div>
     <input [(ngModel)]="searchQuery" placeholder="Search for friends..." />
     <button (click)="searchFriends()">Search</button>
   
     <div *ngFor="let user of searchResults">
       <p>{{ user.username }}</p>
-      <button (click)="sendFriendRequest(user._id)">Send Friend Request</button>
+      <button *ngIf="user.friendStatus === 'Send Friend Request'" (click)="sendFriendRequest(user._id)">
+        Send Friend Request
+      </button>
+      <button *ngIf="user.friendStatus === 'Pending'" disabled>
+        Pending
+      </button>
+      <button *ngIf="user.friendStatus === 'Friend'" disabled>
+        Friend
+      </button>
     </div>
   </div>
     <h2>Your Posts</h2>

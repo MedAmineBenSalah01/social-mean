@@ -4,13 +4,15 @@ const postModel = require("../models/postModel");
 const sendFriendRequest = async (req, res, next) => {
   try {
     const { userId } = req.params; 
+    console.log('id',userId)
     const senderId = req.body.id; 
-
+    console.log('sed',senderId)
     if (userId === senderId) {
       return res.status(400).json({ success: false, message: "You cannot send a friend request to yourself." });
     }
 
     const targetUser = await userModel.findById(userId);
+    
     if (!targetUser) {
       return res.status(404).json({ success: false, message: "User not found." });
     }
@@ -95,6 +97,23 @@ const searchFriends = async (req,res,next) => {
   catch(error) {
     next(error);
   }
+};
+
+
+const getFriendRequests = async(req,res,next) => {
+  try {
+    const { userId } = req.params; 
+    console.log('=>',userId) 
+    const user = await userModel.findById(userId).populate("friendRequests.sender", "username email");
+    console.log('=>user',user)
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+    const pendingRequests = user.friendRequests.filter(request => request.status === "pending");
+    res.status(200).json({ success: true, friendRequests: pendingRequests });
+  } catch (error) {
+    next(error);
+  }
 }
 
 
@@ -102,5 +121,6 @@ module.exports = {
     getFriendsPosts,
     sendFriendRequest,
     respondToFriendRequest,
-    searchFriends
+    searchFriends,
+    getFriendRequests
 }

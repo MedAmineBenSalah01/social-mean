@@ -26,4 +26,24 @@ export class UserService {
       }
     });
   }
+
+  getFriendRequests(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}${userId}/friend-request`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
+  respondToFriendRequest(requestId: string, status: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}friend-request/respond`, {
+      requestId: requestId,
+      status: status,
+      id: localStorage.getItem('userId') 
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
 }

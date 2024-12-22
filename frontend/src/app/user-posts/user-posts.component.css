@@ -1,0 +1,31 @@
+.post-section {
+    margin-top: 20px;
+  }
+  
+  .post {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .comment-section {
+    margin-top: 10px;
+  }
+  
+  .commentsectionspecific {
+    margin-top: 5px;
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
+  }
+  
+  .commentInput {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+  }
+  
+  .like-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }

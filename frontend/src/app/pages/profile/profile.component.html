@@ -6,6 +6,9 @@
     <button (click)="logout()">Sign Off</button>
   </div>
 
+  <button (click)="toggleUserPosts()">View Your Posts</button>
+  <app-user-posts *ngIf="showUserPosts"></app-user-posts>
+
   <div class="friend-request-section">
     <h2>Friend Requests</h2>
     <div *ngFor="let request of friendRequests" class="card">
@@ -38,40 +41,25 @@
   <div class="friends-posts-section">
     <h2>Friends' Posts</h2>
     <div *ngFor="let post of friendsPosts" class="post">
-      <p>{{ post.text }}</p>
-      <button (click)="likePost(post._id)">Like</button>
-      <span>{{ post.likes.length }} Likes</span>
-
-      <div class="comments">
-        <div *ngFor="let comment of post.comments">
-          <p><strong>{{ comment.authorName }}:</strong> {{ comment.text }}</p>
+      <div class="like-section">
+        <p>{{ post.text }}</p>
+        <div>
+          <button (click)="likePost(post._id)">Like</button>
+          <span>{{ post.likes.length }} Likes</span>
         </div>
       </div>
-
+  
+      <div class="comments">
+        <div *ngFor="let comment of post.comments">
+          <p><strong>{{ comment.author.username }}:</strong> {{ comment.text }}</p>
+        </div>
+      </div>
+  
       <input [(ngModel)]="commentTexts[post._id]" placeholder="Add a comment..." />
       <button (click)="commentOnPost(post._id)">Comment</button>
     </div>
   </div>
+  
 
-  <div class="post-section">
-    <h2>Your Posts</h2>
-    <div *ngFor="let post of posts" class="post">
-      <p>{{ post.text }}</p>
-      <button (click)="likePost(post._id)"
-      [disabled]="verify()"
-      >
-        Like ({{ post.likes?.length || 0 }})
-      </button>
 
-      <div class="comment-section">
-        <input class="commentInput" [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
-        <button (click)="commentOnPost(post._id)">Comment</button>
-
-        <div class="commentsectionspecific"  *ngFor="let comment of post.comments">
-          <span>{{ post.author.username }} commented :   </span>
-          <p>{{ comment.text }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

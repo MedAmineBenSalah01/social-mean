@@ -93,15 +93,30 @@ const getPostsForFriends = async (req, res, next) => {
     const userId = req.body.userId;
     const user = await userModel.findById(userId).populate('friends');
     const posts = await Post.find({
-      author: { $in: user.friends.map(friend => friend._id) }, 
+      author: { $in: user.friends.map(friend => friend._id) },
       author: { $ne: userId }, 
-    }).populate('author', 'username');
+    })
+      .populate('author', 'username') 
+      .populate({
+        path: 'comments.author',  
+        select: 'username',      
+      });
+    const username = await userModel.findById(userId);
+    console.log('User username:', username.username);
+    console.log('Posts with comments and usernames:', posts.map(post => ({
+      postId: post._id,
+      comments: post.comments.map(comment => ({
+        commentText: comment.text,
+        commentAuthor: comment.author.username,  
+      }))
+    })));
     res.status(200).json({ posts });
   } catch (error) {
     console.log(error);
     next(error);
   }
 };
+
 
 
 

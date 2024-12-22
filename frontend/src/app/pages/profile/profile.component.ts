@@ -6,12 +6,14 @@ import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {  ChangeDetectorRef } from '@angular/core';
+import { UserPostsComponent } from '../../user-posts/user-posts.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,UserPostsComponent],
+  
 })
 export class ProfileComponent implements OnInit {
   newPostContent: string = '';
@@ -26,6 +28,7 @@ export class ProfileComponent implements OnInit {
   commentTexts: { [key: string]: string } = {};
   username: string = '';
   isDisabled: Boolean =  false;
+  showUserPosts: boolean = false;
 
   constructor(
     private postService: PostService,
@@ -42,6 +45,10 @@ export class ProfileComponent implements OnInit {
     this.username = String(localStorage.getItem('username'));
   }
 
+  toggleUserPosts() {
+    this.showUserPosts = !this.showUserPosts;
+  }
+
   logout(): void {
     this.authService.logout();
   }
@@ -55,7 +62,6 @@ export class ProfileComponent implements OnInit {
     else {
       this.isDisabled = false;
     }
-    console.log('zada',this.isDisabled)
     return this.isDisabled;
   }
 

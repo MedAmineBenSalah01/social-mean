@@ -1,0 +1,22 @@
+<div class="post-section">
+    <h2>Your Posts</h2>
+    <div *ngFor="let post of posts" class="post">
+        <div class="like-section" >
+      <p>{{ post.text }}</p>
+      <button (click)="likePost(post._id)" [disabled]="verify()">
+        Like ({{ post.likes?.length || 0 }})
+      </button>
+    </div>
+  
+      <div class="comment-section">
+        <input class="commentInput" [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
+        <button (click)="commentOnPost(post._id)">Comment</button>
+  
+        <div class="commentsectionspecific" *ngFor="let comment of post.comments">
+          <span>{{ post.author.username }} commented:</span>
+          <p>{{ comment.text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

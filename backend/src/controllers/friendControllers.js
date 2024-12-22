@@ -32,7 +32,6 @@ const respondToFriendRequest = async (req, res, next) => {
   try {
     const { requestId, status } = req.body; 
     const user = await userModel.findById(req.body.id);
-    console.log('=>',user)
     const requestIndex = user.friendRequests.findIndex((req) => req._id.toString() === requestId);
     console.log('=requestIndex',requestIndex)
     if (requestIndex === -1) {
@@ -77,8 +76,31 @@ const getFriendsPosts = async (req, res, next) => {
 };
 
 
+const searchFriends = async (req,res,next) => {
+  try {
+    const username = req.body.username;
+    const searchResult = await userModel.findOne({
+      username:username
+    });
+    
+    if(!searchResult) {
+      res.status(404).send({
+        error:"User is not found."
+      })
+    }
+    res.status(200).json({
+      searchResult
+    })
+  }
+  catch(error) {
+    next(error);
+  }
+}
+
+
 module.exports = {
     getFriendsPosts,
     sendFriendRequest,
-    respondToFriendRequest
+    respondToFriendRequest,
+    searchFriends
 }

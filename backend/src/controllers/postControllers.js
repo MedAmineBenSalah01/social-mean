@@ -90,7 +90,7 @@ const getUserPosts = async (req, res, next) => {
 
 const getPostsForFriends = async (req, res, next) => {
   try {
-    const userId = req.body.id;
+    const userId = req.body.userId;
     const user = await userModel.findById(userId).populate('friends');
     const posts = await Post.find({
       $or: [

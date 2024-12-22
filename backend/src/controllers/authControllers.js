@@ -24,8 +24,8 @@ const signUp = async (req, res) => {
 
 const login = async (req, res, next) => {
     try {
-        const { email, password, keepMe } = req.body;
-        var user = await userModel.findOne({ email }).exec();
+        const { email, password, keepMe } = req.body;    
+        var user = await userModel.findOne({ email }).exec();       
         if (!user) {
             return res
                 .status(401)
@@ -40,7 +40,7 @@ const login = async (req, res, next) => {
         }
         user = {
             name: user.username,
-            id:user._id
+            id:user._id.toHexString()
         };
         const token = await createJWT(user, keepMe);
         res.cookie("token", token, {

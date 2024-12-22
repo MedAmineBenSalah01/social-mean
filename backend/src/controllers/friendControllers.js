@@ -100,9 +100,7 @@ const searchFriends = async (req,res,next) => {
 const getFriendRequests = async(req,res,next) => {
   try {
     const { userId } = req.params; 
-    console.log('=>',userId) 
     const user = await userModel.findById(userId).populate("friendRequests.sender", "username email");
-    console.log('=>user',user)
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found." });
     }

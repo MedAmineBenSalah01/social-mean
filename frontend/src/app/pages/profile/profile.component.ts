@@ -4,6 +4,7 @@ import { FriendService } from '../../services/friend.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -27,13 +28,18 @@ export class ProfileComponent implements OnInit {
     private postService: PostService,
     private friendService: FriendService,
     private userService: UserService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private AuthService : AuthService,
   ) { }
 
   ngOnInit() {
     this.getUserPosts();
     this.getFriendsPosts();
     this.loadFriendRequests();
+  }
+
+  logout () :void {
+    this.AuthService.logout();
   }
 
   createPost(): void {

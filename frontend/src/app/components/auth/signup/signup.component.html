@@ -1,10 +1,9 @@
-<div>
-    <h2>Signup</h2>
-    <form (submit)="signup()">
-      <input type="text" [(ngModel)]="username" name="username" placeholder="Username" required />
-      <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required />
-      <button type="submit">Sign Up</button>
-    </form>
-  </div>
-  
+<div class="signup-container">
+  <h2 class="signup-title">Signup</h2>
+  <form class="signupForm" (submit)="signup()">
+      <input class="signupInput" type="text" [(ngModel)]="username" name="username" placeholder="Username" required />
+      <input class="signupInput" type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
+      <input class="signupInput" type="password" [(ngModel)]="password" name="password" placeholder="Password" required />
+      <button type="submit" class="signup-btn">Sign Up</button>
+  </form>
+</div>

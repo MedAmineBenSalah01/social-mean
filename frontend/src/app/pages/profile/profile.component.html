@@ -1,6 +1,8 @@
 <div class="container" >
   <div class="profile-header">
     <h2>Profile</h2>
+    <h2>Welcome, User!</h2>
+    <button (click)="logout()">Sign Off</button>
   </div>
   <div class="friend-request-section" >
     <h2>Friend Requests</h2>
@@ -34,6 +36,12 @@
     <textarea [(ngModel)]="newPostContent" placeholder="What's on your mind?" rows="4" cols="50"></textarea>
     <button (click)="createPost()">Post</button>
   </div>
+  <div class="friends-posts-section"  >
+    <h2>Friends' Posts</h2>
+    <div *ngFor="let post of friendsPosts">
+      <p>{{ post.text }}</p>
+    </div>
+  </div>
   <div class="post-section" >
     <h2>Your Posts</h2>
     <div *ngFor="let post of posts">
@@ -52,12 +60,7 @@
       </div>
     </div>
     </div>
-    <div class="friends-posts-section"  >
-      <h2>Friends' Posts</h2>
-      <div *ngFor="let post of friendsPosts">
-        <p>{{ post.text }}</p>
-      </div>
-    </div>
+ 
     
   </div>
   

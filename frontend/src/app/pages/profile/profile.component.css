@@ -21,12 +21,12 @@
   }
   
   .friend-request-section button, .search-friends-section button {
-    background-color: #4CAF50;
+    background-color: #0056b3;
     color: white;
   }
   
   .friend-request-section button:hover, .search-friends-section button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
   }
   
   textarea {

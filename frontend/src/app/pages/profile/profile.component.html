@@ -1,7 +1,7 @@
 <div class="container" >
   <div class="profile-header">
     <h2>Profile</h2>
-    <h2>Welcome, User!</h2>
+    <h2>Welcome, {{ username }}!</h2>
     <button (click)="logout()">Sign Off</button>
   </div>
   <div class="friend-request-section" >
@@ -15,7 +15,7 @@
     </div>
   </div>
   <div class="search-friends-section" >
-    <input [(ngModel)]="searchQuery" placeholder="Search for friends..." />
+    <input class="searchInput" [(ngModel)]="searchQuery" placeholder="Search for friends..." />
     <button (click)="searchFriends()">Search</button>
   
     <div class="search-results"  *ngFor="let user of searchResults">
@@ -50,7 +50,7 @@
         Like ({{ post.likes?.length || 0 }})
       </button>
       <div class="comment-section" >
-        <input [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
+        <input class="commentInput" [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
         <button (click)="commentOnPost(post._id)">Comment</button>
 
         <div *ngFor="let comment of post.comments">

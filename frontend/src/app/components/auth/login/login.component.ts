@@ -24,7 +24,7 @@ export class LoginComponent {
       (response: any) => {
         localStorage.setItem('token', response.token);  
         localStorage.setItem('userId', response.user.id);  
-
+        localStorage.setItem('username', response.user.name);  
         this.router.navigate(['/profile']);  
       },
       (error) => {

@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
   friendRequests: any[] = [];
   friendRequestsList: any[] = [];
   commentTexts: { [key: string]: string } = {};
-
+  username: string = '';
   constructor(
     private postService: PostService,
     private friendService: FriendService,
@@ -36,6 +36,7 @@ export class ProfileComponent implements OnInit {
     this.getUserPosts();
     this.getFriendsPosts();
     this.loadFriendRequests();
+    this.username = String(localStorage.getItem('username'));
   }
 
   logout () :void {

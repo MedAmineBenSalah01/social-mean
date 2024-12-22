@@ -13,7 +13,6 @@ export class AuthService {
   constructor(private http: HttpClient,private router: Router) {}
 
   signup(userData: any): Observable<any> {
-    
     return this.http.post(`${this.apiUrl}/signup`, userData);
   }
 

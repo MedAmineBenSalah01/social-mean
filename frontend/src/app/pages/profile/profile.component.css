@@ -84,3 +84,9 @@
     background-color: #FFB300;
   }
   
+
+  .searchInput, .commentInput {
+    padding: 10px 20px;
+    margin: 10px 9px;
+  }
+

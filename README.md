@@ -65,6 +65,7 @@ after posting :
 
 
 Comment on friends Posts : 
-shows the user comment with the user name
+shows the user comment with the user name and the numbers of likes : 
 
-![comment-on-friends-post](https://github.com/user-attachments/assets/a92d68e9-10b9-4862-831b-6e223f4914e1)
+![comment-on-friends-post](https://github.com/user-attachments/assets/473a35a5-b8ce-4ef6-8d11-2ce8930124ae)
+

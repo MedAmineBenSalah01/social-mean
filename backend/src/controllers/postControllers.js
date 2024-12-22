@@ -25,8 +25,8 @@ const createPost = async (req, res, next) => {
 
 const likePost = async (req, res, next) => {
   try {
-    const userId = req.body.id;  
-    const postId = req.params.postId;
+    const userId = req.body.userId;  
+    const postId = req.body.postId;
 
     const post = await Post.findById(postId);
     const user = await userModel.findById(userId);
@@ -37,7 +37,6 @@ const likePost = async (req, res, next) => {
     if (post.likes.includes(userId)) {
       return res.status(400).json({ message: "You have already liked this post" });
     }
-
     post.likes.push(userId);
     await post.save();
 
@@ -55,14 +54,17 @@ const commentOnPost = async (req, res, next) => {
     const userId = req.body.userId;  
     const postId = req.params.postId;
     const post = await Post.findById(postId);
-
+    const username = await userModel.findById({
+      id:userId
+    })
+    
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
     const newComment = {
       text,
-      author: userId,
+      author: {userId, username:username.username},
     };
    
     post.comments.push(newComment);

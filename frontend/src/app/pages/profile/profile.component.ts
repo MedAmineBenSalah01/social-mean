@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
   friendRequestsList: any[] = [];
   commentTexts: { [key: string]: string } = {};
   username: string = '';
+  isDisabled: Boolean =  false;
 
   constructor(
     private postService: PostService,
@@ -43,6 +44,19 @@ export class ProfileComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  verify() {
+    const userId = this.authService.getUserId();
+    const likedAlready = this.posts.some(post => post.likes.includes(userId))
+    if(likedAlready) {
+      this.isDisabled = true;
+    }
+    else {
+      this.isDisabled = false;
+    }
+    console.log('zada',this.isDisabled)
+    return this.isDisabled;
   }
 
   createPost(): void {
@@ -78,6 +92,13 @@ export class ProfileComponent implements OnInit {
         console.error('Error liking post');
       }
     });
+  }
+
+  updatePostLikes(postId: string) {
+    const post = this.posts.find((p) => p._id === postId);
+    if (post) {
+      post.likes.push(this.authService.getUserId());
+    }
   }
 
   loadFriendRequests(): void {
@@ -131,6 +152,7 @@ export class ProfileComponent implements OnInit {
   getUserPosts() {
     this.postService.getUserPosts().subscribe((response) => {
       this.posts = response.posts;
+      console.log('=>',response.posts)
     });
   }
 

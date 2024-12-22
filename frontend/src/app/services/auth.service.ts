@@ -29,4 +29,9 @@ export class AuthService {
   isAuthenticated(): boolean {
     return localStorage.getItem('token') !== null;
   }
+  
+  getUserId (): string {
+    const userId = String(localStorage.getItem('userId'));
+    return userId;
+  }
 }

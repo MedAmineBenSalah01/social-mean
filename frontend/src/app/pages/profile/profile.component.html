@@ -57,7 +57,9 @@
     <h2>Your Posts</h2>
     <div *ngFor="let post of posts" class="post">
       <p>{{ post.text }}</p>
-      <button (click)="likePost(post._id)">
+      <button (click)="likePost(post._id)"
+      [disabled]="verify()"
+      >
         Like ({{ post.likes?.length || 0 }})
       </button>
 
@@ -65,8 +67,8 @@
         <input class="commentInput" [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
         <button (click)="commentOnPost(post._id)">Comment</button>
 
-        <div *ngFor="let comment of post.comments">
-          <span>{{ comment.author.username }}:</span>
+        <div class="commentsectionspecific"  *ngFor="let comment of post.comments">
+          <span>{{ post.author.username }} commented :   </span>
           <p>{{ comment.text }}</p>
         </div>
       </div>

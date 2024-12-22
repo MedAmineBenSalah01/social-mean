@@ -28,7 +28,10 @@ export class PostService {
   }
 
   likePost(postId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}${postId}/like`, {}, {
+    return this.http.post(`${this.apiUrl}${postId}/like`, {
+      postId,
+      userId:localStorage.getItem('userId')
+    }, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }

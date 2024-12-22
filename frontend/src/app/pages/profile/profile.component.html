@@ -1,0 +1,23 @@
+<div>
+  <div>
+    <input [(ngModel)]="searchQuery" placeholder="Search for friends..." />
+    <button (click)="searchFriends()">Search</button>
+  
+    <div *ngFor="let user of searchResults">
+      <p>{{ user.username }}</p>
+      <button (click)="sendFriendRequest(user._id)">Send Friend Request</button>
+    </div>
+  </div>
+    <h2>Your Posts</h2>
+    <div *ngFor="let post of posts">
+      <p>{{ post.text }}</p>
+    </div>
+  </div>
+  
+  <div>
+    <h2>Friends' Posts</h2>
+    <div *ngFor="let post of friendsPosts">
+      <p>{{ post.text }}</p>
+    </div>
+  </div>
+  

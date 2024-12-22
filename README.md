@@ -53,4 +53,11 @@ After sending request :
 ![after-request](https://github.com/user-attachments/assets/07b73415-44e3-4fa8-aea0-f1e97df514f3)
 
 
+Post example : 
+
+![post_init](https://github.com/user-attachments/assets/1cae787d-3488-4f09-a2c3-20db57b19237)
+
+after posting : 
+
+![post_example](https://github.com/user-attachments/assets/36c7c807-c4c5-4a89-9656-db8d2ff6dd64)
 

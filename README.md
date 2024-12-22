@@ -34,4 +34,23 @@ login page :
 ![login](https://github.com/user-attachments/assets/59181a6e-3685-4462-934f-ebde4be26f1c)
 
 
+Example Invitation request : 
+
+
+![friends_requests](https://github.com/user-attachments/assets/a863233d-acec-425d-a357-b3d9ec60f5a0)
+
+
+Before sending a request after searching a user : 
+
+
+![before_request](https://github.com/user-attachments/assets/313923e0-cf1e-4303-9002-900b28f21664)
+
+
+
+After sending request : 
+
+
+![after-request](https://github.com/user-attachments/assets/07b73415-44e3-4fa8-aea0-f1e97df514f3)
+
+
 

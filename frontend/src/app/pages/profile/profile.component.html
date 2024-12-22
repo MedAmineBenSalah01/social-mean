@@ -38,8 +38,8 @@
         Like ({{ post.likes?.length || 0 }})
       </button>
       <div>
-        <input [(ngModel)]="commentText" placeholder="Write a comment..." />
-        <button (click)="commentOnPost(post._id, commentText)">Comment</button>
+        <input [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
+        <button (click)="commentOnPost(post._id)">Comment</button>
 
         <div *ngFor="let comment of post.comments">
           <span>{{ comment.author.username }}:</span>

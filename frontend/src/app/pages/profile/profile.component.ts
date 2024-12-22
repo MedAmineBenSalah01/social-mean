@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   searchResults: any[] = [];
   friendRequests: any[] = [];
   friendRequestsList: any[] = [];
+  commentTexts: { [key: string]: string } = {};
 
   constructor(
     private postService: PostService,
@@ -39,11 +40,12 @@ export class ProfileComponent implements OnInit {
       text: this.newPostContent,
       userId: localStorage.getItem('userId')
     };
-    
     this.postService.createPost(postData).subscribe((response) => {
       if (response.success) {
         this.posts.unshift(response.post); 
         this.newPostContent = ''; 
+      } else {
+        console.error('Error creating post');
       }
     });
   }
@@ -53,7 +55,7 @@ export class ProfileComponent implements OnInit {
       if (response.success) {
         const post = this.posts.find(p => p._id === postId);
         if (post) {
-          post.likes = response.likes; 
+          post.likes = response.likes;
         }
       }
     });
@@ -74,15 +76,16 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-  commentOnPost(postId: string, commentText: string): void {
-    const commentData = { text: commentText };
+  commentOnPost(postId: string): void {
+    const userId = localStorage.getItem('userId');
+    const commentData = { text: this.commentTexts[postId],userId, postId }; 
     this.postService.commentOnPost(postId, commentData).subscribe((response) => {
       if (response.success) {
         const post = this.posts.find(p => p._id === postId);
         if (post) {
           post.comments.unshift(response.comment); 
         }
-        this.commentText = ''; 
+        this.commentTexts[postId] = ''; 
       }
     });
   }

@@ -52,9 +52,8 @@ const likePost = async (req, res, next) => {
 const commentOnPost = async (req, res, next) => {
   try {
     const { text } = req.body;
-    const userId = req.body.id;  
+    const userId = req.body.userId;  
     const postId = req.params.postId;
-
     const post = await Post.findById(postId);
 
     if (!post) {
@@ -65,7 +64,7 @@ const commentOnPost = async (req, res, next) => {
       text,
       author: userId,
     };
-
+   
     post.comments.push(newComment);
     await post.save();
 

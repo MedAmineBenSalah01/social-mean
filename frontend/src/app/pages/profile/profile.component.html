@@ -1,19 +1,22 @@
-<div>
-  <div>
+<div class="container" >
+  <div class="profile-header">
+    <h2>Profile</h2>
+  </div>
+  <div class="friend-request-section" >
     <h2>Friend Requests</h2>
     <div *ngFor="let request of friendRequests">
-      <div>
+      <div class="card" >
         <p>{{ request.sender.username }} wants to be your friend.</p>
         <button (click)="respondToFriendRequest(request._id, 'accepted')">Accept</button>
         <button (click)="respondToFriendRequest(request._id, 'rejected')">Reject</button>
       </div>
     </div>
   </div>
-  <div>
+  <div class="search-friends-section" >
     <input [(ngModel)]="searchQuery" placeholder="Search for friends..." />
     <button (click)="searchFriends()">Search</button>
   
-    <div *ngFor="let user of searchResults">
+    <div class="search-results"  *ngFor="let user of searchResults">
       <p>{{ user.username }}</p>
       <button *ngIf="user.friendStatus === 'Send Friend Request'" (click)="sendFriendRequest(user._id)">
         Send Friend Request
@@ -26,18 +29,19 @@
       </button>
     </div>
   </div>
-  <div>
+  <div class="post-sectio" >
     <h2>Create a New Post</h2>
     <textarea [(ngModel)]="newPostContent" placeholder="What's on your mind?" rows="4" cols="50"></textarea>
     <button (click)="createPost()">Post</button>
   </div>
+  <div class="post-section" >
     <h2>Your Posts</h2>
     <div *ngFor="let post of posts">
       <p>{{ post.text }}</p>
       <button (click)="likePost(post._id)">
         Like ({{ post.likes?.length || 0 }})
       </button>
-      <div>
+      <div class="comment-section" >
         <input [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
         <button (click)="commentOnPost(post._id)">Comment</button>
 
@@ -47,12 +51,13 @@
         </div>
       </div>
     </div>
-  </div>
-  
-  <div>
-    <h2>Friends' Posts</h2>
-    <div *ngFor="let post of friendsPosts">
-      <p>{{ post.text }}</p>
     </div>
+    <div class="friends-posts-section"  >
+      <h2>Friends' Posts</h2>
+      <div *ngFor="let post of friendsPosts">
+        <p>{{ post.text }}</p>
+      </div>
+    </div>
+    
   </div>
   

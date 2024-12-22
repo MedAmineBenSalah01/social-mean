@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { FriendService } from '../../services/friend.service';
 import { CommonModule } from '@angular/common';
@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit {
     private postService: PostService,
     private friendService: FriendService,
     private userService: UserService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -41,22 +42,31 @@ export class ProfileComponent implements OnInit {
       userId: localStorage.getItem('userId')
     };
     this.postService.createPost(postData).subscribe((response) => {
-      if (response.success) {
-        this.posts.unshift(response.post); 
-        this.newPostContent = ''; 
+      if (response.success) {       
+        this.posts.unshift(response.post);
+        this.posts = [...this.posts];
+        this.cdr.detectChanges(); 
+  
+        console.log('Posts array after adding a post:', this.posts);
+  
+        this.newPostContent = '';
       } else {
         console.error('Error creating post');
       }
     });
   }
-
+  
   likePost(postId: string): void {
     this.postService.likePost(postId).subscribe((response) => {
       if (response.success) {
-        const post = this.posts.find(p => p._id === postId);
-        if (post) {
-          post.likes = response.likes;
+        const postIndex = this.posts.findIndex(post => post._id === postId);
+        if (postIndex > -1) {
+          this.posts[postIndex].likes = response.post.likes; 
+          this.posts = [...this.posts]; 
+          this.cdr.detectChanges(); 
         }
+      } else {
+        console.error('Error liking post');
       }
     });
   }
@@ -152,7 +162,6 @@ export class ProfileComponent implements OnInit {
             return u._id === user ? { ...u, friendStatus: 'Pending' } : u;
           });
   
-          console.log('Updated searchResults:', this.searchResults);
         } else {
           console.error('Error sending friend request');
         }

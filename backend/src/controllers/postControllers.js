@@ -92,18 +92,16 @@ const getPostsForFriends = async (req, res, next) => {
     const userId = req.body.userId;
     const user = await userModel.findById(userId).populate('friends');
     const posts = await Post.find({
-      $or: [
-        { author: userId },
-        { author: { $in: user.friends } },
-      ],
+      author: { $in: user.friends.map(friend => friend._id) }, 
+      author: { $ne: userId }, 
     }).populate('author', 'username');
-
     res.status(200).json({ posts });
   } catch (error) {
     console.log(error);
     next(error);
   }
 };
+
 
 
 module.exports = { createPost , likePost , commentOnPost,getUserPosts,getPostsForFriends};

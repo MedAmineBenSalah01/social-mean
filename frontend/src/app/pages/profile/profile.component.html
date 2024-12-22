@@ -1,66 +1,67 @@
-<div class="container" >
+<div class="container">
+  <!-- Profile Header -->
   <div class="profile-header">
     <h2>Profile</h2>
     <h2>Welcome, {{ username }}!</h2>
     <button (click)="logout()">Sign Off</button>
   </div>
-  <div class="friend-request-section" >
+
+  <div class="friend-request-section">
     <h2>Friend Requests</h2>
-    <div *ngFor="let request of friendRequests">
-      <div class="card" >
-        <p>{{ request.sender.username }} wants to be your friend.</p>
-        <button (click)="respondToFriendRequest(request._id, 'accepted')">Accept</button>
-        <button (click)="respondToFriendRequest(request._id, 'rejected')">Reject</button>
-      </div>
+    <div *ngFor="let request of friendRequests" class="card">
+      <p>{{ request.sender.username }} wants to be your friend.</p>
+      <button (click)="respondToFriendRequest(request._id, 'accepted')">Accept</button>
+      <button (click)="respondToFriendRequest(request._id, 'rejected')">Reject</button>
     </div>
   </div>
-  <div class="search-friends-section" >
+
+  <div class="search-friends-section">
     <input class="searchInput" [(ngModel)]="searchQuery" placeholder="Search for friends..." />
     <button (click)="searchFriends()">Search</button>
-  
-    <div class="search-results"  *ngFor="let user of searchResults">
+
+    <div class="search-results" *ngFor="let user of searchResults">
       <p>{{ user.username }}</p>
       <button *ngIf="user.friendStatus === 'Send Friend Request'" (click)="sendFriendRequest(user._id)">
         Send Friend Request
       </button>
-      <button *ngIf="user.friendStatus === 'Pending'" disabled>
-        Pending
-      </button>
-      <button *ngIf="user.friendStatus === 'Friend'" disabled>
-        Friend
-      </button>
+      <button *ngIf="user.friendStatus === 'Pending'" disabled>Pending</button>
+      <button *ngIf="user.friendStatus === 'Friend'" disabled>Friend</button>
     </div>
   </div>
-  <div class="post-sectio" >
+
+  <div class="post-section">
     <h2>Create a New Post</h2>
     <textarea [(ngModel)]="newPostContent" placeholder="What's on your mind?" rows="4" cols="50"></textarea>
     <button (click)="createPost()">Post</button>
   </div>
+
   <div class="friends-posts-section">
     <h2>Friends' Posts</h2>
     <div *ngFor="let post of friendsPosts" class="post">
       <p>{{ post.text }}</p>
       <button (click)="likePost(post._id)">Like</button>
       <span>{{ post.likes.length }} Likes</span>
-  
+
       <div class="comments">
         <div *ngFor="let comment of post.comments">
           <p><strong>{{ comment.authorName }}:</strong> {{ comment.text }}</p>
         </div>
       </div>
-  
-      <input [(ngModel)]="commentText" placeholder="Add a comment..." />
+
+      <input [(ngModel)]="commentTexts[post._id]" placeholder="Add a comment..." />
       <button (click)="commentOnPost(post._id)">Comment</button>
     </div>
   </div>
-  <div class="post-section" >
+
+  <div class="post-section">
     <h2>Your Posts</h2>
-    <div *ngFor="let post of posts">
+    <div *ngFor="let post of posts" class="post">
       <p>{{ post.text }}</p>
       <button (click)="likePost(post._id)">
         Like ({{ post.likes?.length || 0 }})
       </button>
-      <div class="comment-section" >
+
+      <div class="comment-section">
         <input class="commentInput" [(ngModel)]="commentTexts[post._id]" placeholder="Write a comment..." />
         <button (click)="commentOnPost(post._id)">Comment</button>
 
@@ -70,8 +71,5 @@
         </div>
       </div>
     </div>
-    </div>
- 
-    
   </div>
-  
+</div>

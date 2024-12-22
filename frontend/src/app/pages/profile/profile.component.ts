@@ -1,16 +1,17 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';
 import { FriendService } from '../../services/friend.service';
-import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
-import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import {  ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [FormsModule, CommonModule],
 })
 export class ProfileComponent implements OnInit {
   newPostContent: string = '';
@@ -24,12 +25,13 @@ export class ProfileComponent implements OnInit {
   friendRequestsList: any[] = [];
   commentTexts: { [key: string]: string } = {};
   username: string = '';
+
   constructor(
     private postService: PostService,
     private friendService: FriendService,
     private userService: UserService,
-    private cdr: ChangeDetectorRef,
-    private AuthService : AuthService,
+    private authService: AuthService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -39,40 +41,39 @@ export class ProfileComponent implements OnInit {
     this.username = String(localStorage.getItem('username'));
   }
 
-  logout () :void {
-    this.AuthService.logout();
+  logout(): void {
+    this.authService.logout();
   }
 
   createPost(): void {
+    if (!this.newPostContent.trim()) {
+      return;
+    }
+
     const postData = {
       text: this.newPostContent,
       userId: localStorage.getItem('userId')
     };
+
     this.postService.createPost(postData).subscribe((response) => {
-      if (response.success) {       
-        this.posts.unshift(response.post);
-        this.posts = [...this.posts];
-        this.cdr.detectChanges(); 
-  
-        console.log('Posts array after adding a post:', this.posts);
-  
+      if (response.message  = "Post created successfully") {
+        this.posts = [response.post, ...this.posts];
         this.newPostContent = '';
+        this.getUserPosts();
       } else {
         console.error('Error creating post');
       }
     });
   }
-  
+
   likePost(postId: string): void {
     this.postService.likePost(postId).subscribe((response) => {
-      if (response.success) {
-        const postIndex = this.posts.findIndex(post => post._id === postId);
-        if (postIndex > -1) {
-          this.posts[postIndex].likes = response.post.likes; 
-          this.posts = [...this.posts]; 
-          this.cdr.detectChanges(); 
-          this.getUserPosts();
-        }
+      if (response.message === "Post liked successfully") {
+        this.posts = this.posts.map((post) => {
+          return post._id === postId ? { ...post, likes: response.post.likes } : post;
+        });
+        this.getFriendsPosts();
+        this.getUserPosts();
       } else {
         console.error('Error liking post');
       }
@@ -94,16 +95,19 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
+
   commentOnPost(postId: string): void {
     const userId = localStorage.getItem('userId');
-    const commentData = { text: this.commentTexts[postId],userId, postId }; 
+    const commentData = { text: this.commentTexts[postId], userId, postId };
+
     this.postService.commentOnPost(postId, commentData).subscribe((response) => {
-      if (response.success) {
+      if (response.message === "Comment added successfully") {
         const post = this.posts.find(p => p._id === postId);
         if (post) {
-          post.comments.unshift(response.comment); 
+          post.comments.unshift(response.comment);
         }
-        this.commentTexts[postId] = ''; 
+        this.commentTexts[postId] = '';
+        this.getFriendsPosts();
         this.getUserPosts();
       }
     });
@@ -153,7 +157,7 @@ export class ProfileComponent implements OnInit {
             ? 'Pending'
             : 'Send Friend Request';
 
-        this.searchResults = [...this.searchResults, foundUser];
+        this.searchResults = [foundUser, ...this.searchResults];
       });
     }
   }
@@ -170,7 +174,6 @@ export class ProfileComponent implements OnInit {
           this.searchResults = this.searchResults.map((u) => {
             return u._id === user ? { ...u, friendStatus: 'Pending' } : u;
           });
-  
         } else {
           console.error('Error sending friend request');
         }
@@ -178,13 +181,6 @@ export class ProfileComponent implements OnInit {
       (error) => {
         console.error('An error occurred while sending the friend request:', error);
       }
-    );
-  }
-  
-
-  private updateSearchResults(userId: string, changes: Partial<any>) {
-    this.searchResults = this.searchResults.map(user =>
-      user._id === userId ? { ...user, ...changes } : user
     );
   }
 }

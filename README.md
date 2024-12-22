@@ -64,6 +64,6 @@ after posting :
 
 
 Comment on friends Posts : 
-
+shows the user comment with the user name
 
 ![comment-on-friends-post](https://github.com/user-attachments/assets/a92d68e9-10b9-4862-831b-6e223f4914e1)

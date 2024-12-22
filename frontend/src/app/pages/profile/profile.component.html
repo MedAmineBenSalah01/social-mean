@@ -36,10 +36,21 @@
     <textarea [(ngModel)]="newPostContent" placeholder="What's on your mind?" rows="4" cols="50"></textarea>
     <button (click)="createPost()">Post</button>
   </div>
-  <div class="friends-posts-section"  >
+  <div class="friends-posts-section">
     <h2>Friends' Posts</h2>
-    <div *ngFor="let post of friendsPosts">
+    <div *ngFor="let post of friendsPosts" class="post">
       <p>{{ post.text }}</p>
+      <button (click)="likePost(post._id)">Like</button>
+      <span>{{ post.likes.length }} Likes</span>
+  
+      <div class="comments">
+        <div *ngFor="let comment of post.comments">
+          <p><strong>{{ comment.authorName }}:</strong> {{ comment.text }}</p>
+        </div>
+      </div>
+  
+      <input [(ngModel)]="commentText" placeholder="Add a comment..." />
+      <button (click)="commentOnPost(post._id)">Comment</button>
     </div>
   </div>
   <div class="post-section" >

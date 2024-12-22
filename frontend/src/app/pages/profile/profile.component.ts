@@ -71,6 +71,7 @@ export class ProfileComponent implements OnInit {
           this.posts[postIndex].likes = response.post.likes; 
           this.posts = [...this.posts]; 
           this.cdr.detectChanges(); 
+          this.getUserPosts();
         }
       } else {
         console.error('Error liking post');
@@ -103,6 +104,7 @@ export class ProfileComponent implements OnInit {
           post.comments.unshift(response.comment); 
         }
         this.commentTexts[postId] = ''; 
+        this.getUserPosts();
       }
     });
   }

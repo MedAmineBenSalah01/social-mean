@@ -32,9 +32,6 @@
     font-size: 14px;
   }
   
-  button:hover {
-    background-color: #45a049;
-  }
   
   .loginInput, textarea {
     width: 100%;

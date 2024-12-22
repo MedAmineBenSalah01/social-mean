@@ -56,9 +56,7 @@
     transition: background-color 0.3s ease;
   }
   
-  .signup-btn:hover {
-    background-color: #218838; 
-  }
+
   
   @media (max-width: 480px) {
     .signup-container {

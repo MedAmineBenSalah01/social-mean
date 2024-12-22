@@ -60,7 +60,8 @@ Post example :
 after posting : 
 
 
-![post_example](https://github.com/user-attachments/assets/08e942db-85f5-4557-87ad-2d0a2e656eb0)
+![after-post](https://github.com/user-attachments/assets/26c85697-6e90-44d7-8f1a-6eb5773aad0f)
+
 
 
 Comment on friends Posts : 

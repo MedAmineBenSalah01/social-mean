@@ -54,9 +54,7 @@ const commentOnPost = async (req, res, next) => {
     const userId = req.body.userId;  
     const postId = req.params.postId;
     const post = await Post.findById(postId);
-    const username = await userModel.findById({
-      id:userId
-    })
+    const username = await userModel.findById(userId);
     
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
@@ -64,7 +62,8 @@ const commentOnPost = async (req, res, next) => {
 
     const newComment = {
       text,
-      author: {userId, username:username.username},
+      author: userId, 
+      username: username.username,
     };
    
     post.comments.push(newComment);

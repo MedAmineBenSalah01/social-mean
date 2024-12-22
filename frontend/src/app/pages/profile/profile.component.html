@@ -26,9 +26,26 @@
       </button>
     </div>
   </div>
+  <div>
+    <h2>Create a New Post</h2>
+    <textarea [(ngModel)]="newPostContent" placeholder="What's on your mind?" rows="4" cols="50"></textarea>
+    <button (click)="createPost()">Post</button>
+  </div>
     <h2>Your Posts</h2>
     <div *ngFor="let post of posts">
       <p>{{ post.text }}</p>
+      <button (click)="likePost(post._id)">
+        Like ({{ post.likes?.length || 0 }})
+      </button>
+      <div>
+        <input [(ngModel)]="commentText" placeholder="Write a comment..." />
+        <button (click)="commentOnPost(post._id, commentText)">Comment</button>
+
+        <div *ngFor="let comment of post.comments">
+          <span>{{ comment.author.username }}:</span>
+          <p>{{ comment.text }}</p>
+        </div>
+      </div>
     </div>
   </div>
   

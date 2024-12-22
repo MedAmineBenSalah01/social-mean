@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class ProfileComponent implements OnInit {
+  newPostContent: string = '';
+  commentText: string = '';
   posts: any[] = [];
   friendsPosts: any[] = [];
   friends: any[] = [];
@@ -23,13 +25,38 @@ export class ProfileComponent implements OnInit {
   constructor(
     private postService: PostService,
     private friendService: FriendService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
     this.getUserPosts();
     this.getFriendsPosts();
     this.loadFriendRequests();
+  }
+
+  createPost(): void {
+    const postData = {
+      text: this.newPostContent,
+      userId: localStorage.getItem('userId')
+    };
+    
+    this.postService.createPost(postData).subscribe((response) => {
+      if (response.success) {
+        this.posts.unshift(response.post); 
+        this.newPostContent = ''; 
+      }
+    });
+  }
+
+  likePost(postId: string): void {
+    this.postService.likePost(postId).subscribe((response) => {
+      if (response.success) {
+        const post = this.posts.find(p => p._id === postId);
+        if (post) {
+          post.likes = response.likes; 
+        }
+      }
+    });
   }
 
   loadFriendRequests(): void {
@@ -46,6 +73,18 @@ export class ProfileComponent implements OnInit {
         console.error('An error occurred:', error);
       }
     );
+  }
+  commentOnPost(postId: string, commentText: string): void {
+    const commentData = { text: commentText };
+    this.postService.commentOnPost(postId, commentData).subscribe((response) => {
+      if (response.success) {
+        const post = this.posts.find(p => p._id === postId);
+        if (post) {
+          post.comments.unshift(response.comment); 
+        }
+        this.commentText = ''; 
+      }
+    });
   }
 
   respondToFriendRequest(requestId: string, status: string): void {

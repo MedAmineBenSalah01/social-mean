@@ -4,7 +4,7 @@ const userModel = require('../models/userModel');
 const createPost = async (req, res, next) => {
   try {
     const { text } = req.body;
-    const userId = req.body.user.id;  
+    const userId = req.body.userId;  
 
     const newPost = new Post({
       text,
@@ -78,7 +78,7 @@ const commentOnPost = async (req, res, next) => {
 
 const getUserPosts = async (req, res, next) => {
   try {
-    const userId = req.body.id;
+    const userId = req.body.userId;
     const posts = await Post.find({ author: userId }).populate('author', 'username');
     res.status(200).json({ posts });
   } catch (error) {

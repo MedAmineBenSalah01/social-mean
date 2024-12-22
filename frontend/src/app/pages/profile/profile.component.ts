@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  imports:[CommonModule,FormsModule]
+  imports: [CommonModule, FormsModule]
 })
 export class ProfileComponent implements OnInit {
   posts: any[] = [];
@@ -18,8 +18,13 @@ export class ProfileComponent implements OnInit {
   searchQuery: string = '';
   searchResults: any[] = [];
   friendRequests: any[] = [];
-  friendRequestsList : any[] = [];
-  constructor(private postService: PostService, private friendService: FriendService, private userService: UserService) {}
+  friendRequestsList: any[] = [];
+
+  constructor(
+    private postService: PostService,
+    private friendService: FriendService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.getUserPosts();
@@ -33,7 +38,6 @@ export class ProfileComponent implements OnInit {
       (response) => {
         if (response.success) {
           this.friendRequests = response.friendRequests;
-          
         } else {
           console.error('Error fetching friend requests');
         }
@@ -48,7 +52,7 @@ export class ProfileComponent implements OnInit {
     this.userService.respondToFriendRequest(requestId, status).subscribe(
       (response) => {
         if (response.success) {
-          this.loadFriendRequests(); 
+          this.loadFriendRequests();
         } else {
           console.error('Error responding to friend request');
         }
@@ -61,57 +65,66 @@ export class ProfileComponent implements OnInit {
 
   getUserPosts() {
     this.postService.getUserPosts().subscribe((response) => {
-       this.posts = response.posts;
-      console.log('this post',response.posts)
+      this.posts = response.posts;
     });
   }
 
   getFriendsPosts() {
     this.friendService.getFriendsPosts().subscribe((response) => {
-       this.friendsPosts = response.posts;
-      console.log('this.friendsPosts',response.posts)
-
+      this.friendsPosts = response.posts;
     });
   }
+
   searchFriends(): void {
     if (this.searchQuery) {
-      this.userService.searchUsers(this.searchQuery).subscribe(response => {
+      this.userService.searchUsers(this.searchQuery).subscribe((response) => {
         const foundUser = response.searchResult;
-        this.friendRequestsList = response.searchResult.friendRequests
-        console.log('wH.',response.searchResult.friendRequests)
-        console.log('=>',this.friendRequestsList)
-        const isFriend = this.friends.some(friend => friend._id === foundUser._id);
-        const hasPendingRequest = this.friendRequestsList.some(request => request.sender._id === foundUser._id && request.status === "pending");
-        console.log('haspending',hasPendingRequest)
-        foundUser.friendStatus = isFriend
-          ? "Friend"
-          : (hasPendingRequest ? "Pending" : "Send Friend Request");
-          console.log('=>',foundUser)
-        this.searchResults.push(foundUser);
-        console.log('=>',this.searchResults)
+        this.friendRequestsList = response.searchResult.friendRequests;
 
+        const isFriend = this.friends.some(friend => friend._id === foundUser._id);
+        const hasPendingRequest = this.friendRequestsList.some(request =>
+          request.sender === localStorage.getItem('userId') && request.status === 'pending'
+        );
+
+        foundUser.friendStatus = isFriend
+          ? 'Friend'
+          : hasPendingRequest
+            ? 'Pending'
+            : 'Send Friend Request';
+
+        this.searchResults = [...this.searchResults, foundUser];
       });
     }
   }
-  
+
   sendFriendRequest(user: any): void {
     const senderId = localStorage.getItem('userId');
     if (!senderId) {
       console.error('User ID not found in localStorage');
       return;
     }
-    this.userService.sendFriendRequest(user, String(senderId)).subscribe(response => {
-      if (response.success) {
-        const userInSearchResults = this.searchResults.find(u => u._id === user._id);
-        if (userInSearchResults) {
-          userInSearchResults.friendStatus = 'Pending';
+    this.userService.sendFriendRequest(user, String(senderId)).subscribe(
+      (response) => {
+        if (response.success) {
+          this.searchResults = this.searchResults.map((u) => {
+            return u._id === user ? { ...u, friendStatus: 'Pending' } : u;
+          });
+  
+          console.log('Updated searchResults:', this.searchResults);
+        } else {
+          console.error('Error sending friend request');
         }
-      } else {
-        console.error('Error sending friend request');
+      },
+      (error) => {
+        console.error('An error occurred while sending the friend request:', error);
       }
-    }, error => {
-      console.error('An error occurred while sending the friend request:', error);
-    });
+    );
   }
   
+
+  private updateSearchResults(userId: string, changes: Partial<any>) {
+    this.searchResults = this.searchResults.map(user =>
+      user._id === userId ? { ...user, ...changes } : user
+    );
+  }
 }

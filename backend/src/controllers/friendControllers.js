@@ -4,9 +4,7 @@ const postModel = require("../models/postModel");
 const sendFriendRequest = async (req, res, next) => {
   try {
     const { userId } = req.params; 
-    console.log('id',userId)
     const senderId = req.body.id; 
-    console.log('sed',senderId)
     if (userId === senderId) {
       return res.status(400).json({ success: false, message: "You cannot send a friend request to yourself." });
     }
@@ -35,7 +33,6 @@ const respondToFriendRequest = async (req, res, next) => {
     const { requestId, status } = req.body; 
     const user = await userModel.findById(req.body.id);
     const requestIndex = user.friendRequests.findIndex((req) => req._id.toString() === requestId);
-    console.log('=requestIndex',requestIndex)
     if (requestIndex === -1) {
       return res.status(404).json({ success: false, message: "Friend request not found." });
     }

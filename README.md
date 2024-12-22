@@ -62,3 +62,8 @@ after posting :
 
 ![post_example](https://github.com/user-attachments/assets/08e942db-85f5-4557-87ad-2d0a2e656eb0)
 
+
+Comment on friends Posts : 
+
+
+![comment-on-friends-post](https://github.com/user-attachments/assets/a92d68e9-10b9-4862-831b-6e223f4914e1)

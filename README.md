@@ -59,5 +59,6 @@ Post example :
 
 after posting : 
 
-![post_example](https://github.com/user-attachments/assets/36c7c807-c4c5-4a89-9656-db8d2ff6dd64)
+
+![post_example](https://github.com/user-attachments/assets/08e942db-85f5-4557-87ad-2d0a2e656eb0)
 

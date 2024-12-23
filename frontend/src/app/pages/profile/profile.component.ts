@@ -158,7 +158,6 @@ export class ProfileComponent implements OnInit {
   getUserPosts() {
     this.postService.getUserPosts().subscribe((response) => {
       this.posts = response.posts;
-      console.log('=>',response.posts)
     });
   }
 

@@ -102,7 +102,6 @@ const getPostsForFriends = async (req, res, next) => {
         select: 'username',      
       });
     const username = await userModel.findById(userId);
-    console.log('User username:', username.username);
     console.log('Posts with comments and usernames:', posts.map(post => ({
       postId: post._id,
       comments: post.comments.map(comment => ({

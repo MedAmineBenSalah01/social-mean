@@ -54,10 +54,9 @@ const createUsersAndPosts = async () => {
         await post4.save();
 
         console.log("Users and posts created successfully!", user1, user2);
-        mongoose.disconnect();
     } catch (error) {
         console.error("Error creating users and posts:", error);
     }
 };
 
-createUsersAndPosts();
+module.exports = createUsersAndPosts;

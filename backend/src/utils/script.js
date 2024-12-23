@@ -3,6 +3,8 @@ const User = require("../models/userModel");
 const Post = require("../models/postModel");
 const bcrypt = require("bcrypt");
 
+// this script will generate dummy data for DEMO purpose 
+
 const createUsersAndPosts = async () => {
     const salt = await bcrypt.genSalt(10);
     const password = "password123";
@@ -14,7 +16,6 @@ const createUsersAndPosts = async () => {
             useUnifiedTopology: true,
         });
 
-        // Check if users already exist before creating them
         const user1Exists = await User.findOne({ username: "User1" });
         const user2Exists = await User.findOne({ username: "User2" });
 
@@ -43,7 +44,6 @@ const createUsersAndPosts = async () => {
             user2 = user2Exists;
         }
 
-        // Check if posts already exist before creating them
         const post1Exists = await Post.findOne({ text: "Post 1 from User1", author: user1._id });
         const post2Exists = await Post.findOne({ text: "Post 2 from User1", author: user1._id });
         const post3Exists = await Post.findOne({ text: "Post 1 from User2", author: user2._id });

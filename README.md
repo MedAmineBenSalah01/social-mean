@@ -8,7 +8,7 @@ To set up the app locally, follow these steps:
 
 Backend
 ```bash
-cd backend / npm install && npm start
+cd backend / npm install && npm start ( will run the database script )
 ```
 Frontend
 ```bash
